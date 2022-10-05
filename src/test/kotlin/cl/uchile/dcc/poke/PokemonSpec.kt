@@ -18,8 +18,13 @@ import io.kotest.matchers.shouldBe
  * work. If not, see <https://creativecommons.org/licenses/by/4.0/>.
  */
 class PokemonSpec : FunSpec({
-    val salandit = Pokemon("Salandit")
-    val scolipede = Pokemon("Scolipede")
+    lateinit var salandit: Pokemon
+    lateinit var scolipede: Pokemon
+
+    beforeEach {
+        salandit = Pokemon("Salandit")
+        scolipede = Pokemon("Scolipede")
+    }
 
     test("A Pokémon can be created with a name") {
         salandit.name shouldBe "Salandit"
