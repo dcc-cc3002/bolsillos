@@ -10,18 +10,20 @@ package cl.uchile.dcc.poke
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
-@Suppress("SpellCheckingInspection")
 private const val SALANDIT_NAME = "Salandit"
-
-@Suppress("SpellCheckingInspection")
 private const val SCOLIPEDE_NAME = "Scolipede"
 
 class PokemonSpec : FunSpec({
-    @Suppress("SpellCheckingInspection") val salandit = Pokemon(SALANDIT_NAME)
-    @Suppress("SpellCheckingInspection") val scolipede = Pokemon(SCOLIPEDE_NAME)
+    lateinit var salandit: Pokemon
+    lateinit var scolipede: Pokemon
+
+    beforeEach {
+        salandit = Pokemon(SALANDIT_NAME)
+        scolipede = Pokemon(SCOLIPEDE_NAME)
+    }
 
     test("A Pokémon can be created with a name") {
-        salandit.name shouldBe "Salandit"
-        scolipede.name shouldBe "Scolipede"
+        salandit.name shouldBe SALANDIT_NAME
+        scolipede.name shouldBe SCOLIPEDE_NAME
     }
 })
