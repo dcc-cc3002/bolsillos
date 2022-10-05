@@ -48,8 +48,14 @@ class PokemonSpec : FunSpec({
     }
 
     test("A Pokémon can be KO") {
-        salandit.isKo() shouldNotBe false
+        salandit.isKo() shouldBe false
         salandit.currentHp = 0
+        salandit.isKo() shouldBe true
+    }
+
+    test("A Pokémon can be KOd by an attack") {
+        salandit.isKo() shouldBe false
+        repeat(5) { scolipede.attack(salandit) }
         salandit.isKo() shouldBe true
     }
 })
