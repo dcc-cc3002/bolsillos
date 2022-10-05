@@ -11,6 +11,12 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldNotBeSameInstanceAs
+import io.kotest.property.Arb
+import io.kotest.property.PropTestConfig
+import io.kotest.property.arbitrary.positiveInt
+import io.kotest.property.arbitrary.string
+import io.kotest.property.assume
+import io.kotest.property.checkAll
 
 private const val SALANDIT_NAME = "Salandit"
 private const val SALANDIT_HP = 48
@@ -18,7 +24,6 @@ private const val SALANDIT_STR = 44
 private const val SCOLIPEDE_NAME = "Scolipede"
 private const val SCOLIPEDE_HP = 60
 private const val SCOLIPEDE_STR = 100
-
 
 class PokemonSpec : FunSpec({
     lateinit var salandit: Pokemon
@@ -30,32 +35,71 @@ class PokemonSpec : FunSpec({
     }
 
     test("Two Pokémon with the same parameters are equal") {
-        val salandit2 = Pokemon(SALANDIT_NAME, SALANDIT_HP, SALANDIT_STR)
-        salandit shouldNotBeSameInstanceAs salandit2
-        salandit shouldBe salandit2
-        val scolipede2 = Pokemon(SCOLIPEDE_NAME, SCOLIPEDE_HP, SCOLIPEDE_STR)
-        scolipede shouldNotBeSameInstanceAs scolipede2
-        scolipede shouldBe scolipede2
+        checkAll(Arb.string(), Arb.positiveInt(), Arb.positiveInt()) { name, hp, str ->
+            val pokemon1 = Pokemon(name, hp, str)
+            val pokemon2 = Pokemon(name, hp, str)
+            pokemon1 shouldNotBeSameInstanceAs pokemon2
+            pokemon1 shouldBe pokemon2
+        }
     }
 
-    test("Two Pokémon with different parameters are not equal") {
-        salandit shouldNotBe scolipede
+    test("Two Pokémon with different names are not equal") {
+        checkAll(
+            Arb.string(),
+            Arb.string(),
+            Arb.positiveInt(),
+            Arb.positiveInt(),
+        ) { name1, name2, hp, str ->
+            assume(name1 != name2)
+            val pokemon1 = Pokemon(name1, hp, str)
+            val pokemon2 = Pokemon(name2, hp, str)
+            pokemon1 shouldNotBe pokemon2
+        }
     }
 
     test("A Pokémon can attack another Pokémon") {
-        salandit.attack(scolipede)
-        scolipede.currentHp shouldBe SCOLIPEDE_HP - SALANDIT_STR / 10
+        checkAll(
+            PropTestConfig(maxDiscardPercentage = 30),
+            Arb.string(),
+            Arb.string(),
+            Arb.positiveInt(),
+            Arb.positiveInt(),
+            Arb.positiveInt(),
+            Arb.positiveInt()
+        ) { name1, name2, hp1, hp2, str1, str2 ->
+            assume(str1 * 10 <= hp2)
+            val pokemon1 = Pokemon(name1, hp1, str1)
+            val pokemon2 = Pokemon(name2, hp2, str2)
+            pokemon1.attack(pokemon2)
+            pokemon2.currentHp shouldBe (hp2 - str1 / 10)
+        }
     }
 
     test("A Pokémon can be KO") {
-        salandit.isKo() shouldBe false
-        salandit.currentHp = 0
-        salandit.isKo() shouldBe true
+        checkAll(Arb.string(), Arb.positiveInt(), Arb.positiveInt()) { name, hp, str ->
+            val pokemon = Pokemon(name, hp, str)
+            pokemon.isKo() shouldBe false
+            pokemon.currentHp = 0
+            pokemon.isKo() shouldBe true
+        }
     }
 
     test("A Pokémon can be KOd by an attack") {
-        salandit.isKo() shouldBe false
-        repeat(5) { scolipede.attack(salandit) }
-        salandit.isKo() shouldBe true
+        checkAll(
+            PropTestConfig(maxDiscardPercentage = 30),
+            Arb.string(),
+            Arb.string(),
+            Arb.positiveInt(),
+            Arb.positiveInt(),
+            Arb.positiveInt(),
+            Arb.positiveInt()
+        ) { name1, name2, hp1, hp2, str1, str2 ->
+            assume(str1 * 10 >= hp2)
+            val pokemon1 = Pokemon(name1, hp1, str1)
+            val pokemon2 = Pokemon(name2, hp2, str2)
+            pokemon1.attack(pokemon2)
+            pokemon2.currentHp shouldBe 0
+            pokemon2.isKo() shouldBe true
+        }
     }
 })
