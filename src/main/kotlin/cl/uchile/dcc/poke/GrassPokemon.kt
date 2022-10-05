@@ -7,11 +7,9 @@
 
 package cl.uchile.dcc.poke
 
-interface Pokemon {
-    val name: String
-    val maxHp: Int
-    val strength: Int
-    var currentHp: Int
-    fun attack(other: AbstractPokemon)
-    fun isKo(): Boolean
-}
+
+class GrassPokemon(
+    name: String,
+    maxHp: Int,
+    strength: Int
+) : AbstractPokemon(name, maxHp, strength)
