@@ -16,6 +16,8 @@ class Pokemon(val name: String, val maxHp: Int, val strength: Int) {
         other.currentHp -= strength / 10
     }
 
+    fun isKo() = currentHp == 0
+
     override fun equals(other: Any?) = when {
         this === other -> true
         other !is Pokemon -> false

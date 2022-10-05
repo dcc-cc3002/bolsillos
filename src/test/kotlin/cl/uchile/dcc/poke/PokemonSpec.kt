@@ -46,4 +46,10 @@ class PokemonSpec : FunSpec({
         salandit.attack(scolipede)
         scolipede.currentHp shouldBe SCOLIPEDE_HP - SALANDIT_STR / 10
     }
+
+    test("A Pokémon can be KO") {
+        salandit.isKo() shouldNotBe false
+        salandit.currentHp = 0
+        salandit.isKo() shouldBe true
+    }
 })
