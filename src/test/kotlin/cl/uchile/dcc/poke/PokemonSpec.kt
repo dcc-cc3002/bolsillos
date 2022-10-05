@@ -35,7 +35,7 @@ class PokemonSpec : FunSpec({
     }
 
     test("Two Pokémon with the same parameters are equal") {
-        checkAll(Arb.string(), Arb.positiveInt(), Arb.positiveInt()) { name, hp, str ->
+        checkAll(Arb.string(), Arb.positiveInt(1000), Arb.positiveInt(100000)) { name, hp, str ->
             val pokemon1 = Pokemon(name, hp, str)
             val pokemon2 = Pokemon(name, hp, str)
             pokemon1 shouldNotBeSameInstanceAs pokemon2
@@ -47,8 +47,8 @@ class PokemonSpec : FunSpec({
         checkAll(
             Arb.string(),
             Arb.string(),
-            Arb.positiveInt(),
-            Arb.positiveInt(),
+            Arb.positiveInt(1000),
+            Arb.positiveInt(100000),
         ) { name1, name2, hp, str ->
             assume(name1 != name2)
             val pokemon1 = Pokemon(name1, hp, str)
@@ -59,15 +59,14 @@ class PokemonSpec : FunSpec({
 
     test("A Pokémon can attack another Pokémon") {
         checkAll(
-            PropTestConfig(maxDiscardPercentage = 30),
             Arb.string(),
             Arb.string(),
-            Arb.positiveInt(),
-            Arb.positiveInt(),
-            Arb.positiveInt(),
-            Arb.positiveInt()
+            Arb.positiveInt(1000),
+            Arb.positiveInt(1000),
+            Arb.positiveInt(1000),
+            Arb.positiveInt(1000)
         ) { name1, name2, hp1, hp2, str1, str2 ->
-            assume(str1 * 10 <= hp2)
+            assume(hp2 - str1 / 10 > 0)
             val pokemon1 = Pokemon(name1, hp1, str1)
             val pokemon2 = Pokemon(name2, hp2, str2)
             pokemon1.attack(pokemon2)
@@ -86,15 +85,14 @@ class PokemonSpec : FunSpec({
 
     test("A Pokémon can be KOd by an attack") {
         checkAll(
-            PropTestConfig(maxDiscardPercentage = 30),
             Arb.string(),
             Arb.string(),
-            Arb.positiveInt(),
-            Arb.positiveInt(),
-            Arb.positiveInt(),
-            Arb.positiveInt()
+            Arb.positiveInt(1000),
+            Arb.positiveInt(1000),
+            Arb.positiveInt(100000),
+            Arb.positiveInt(100000)
         ) { name1, name2, hp1, hp2, str1, str2 ->
-            assume(str1 * 10 >= hp2)
+            assume(hp2 - str1 / 10 <= 0)
             val pokemon1 = Pokemon(name1, hp1, str1)
             val pokemon2 = Pokemon(name2, hp2, str2)
             pokemon1.attack(pokemon2)

@@ -8,9 +8,14 @@
 package cl.uchile.dcc.poke
 
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 
 class Pokemon(val name: String, val maxHp: Int, val strength: Int) {
     var currentHp = maxHp
+        set(value) {
+            field = max(0, min(value, maxHp))
+        }
 
     fun attack(other: Pokemon) {
         other.currentHp -= strength / 10
