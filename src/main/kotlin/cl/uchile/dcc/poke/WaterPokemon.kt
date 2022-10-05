@@ -16,6 +16,22 @@ class WaterPokemon(
     strength: Int
 ) : AbstractPokemon(name, maxHp, strength) {
 
+    override fun attack(other: Pokemon) {
+        when (other) {
+            is FirePokemon -> {
+                other.currentHp -= (strength / 10 * 1.5).toInt()
+            }
+
+            is GrassPokemon -> {
+                other.currentHp -= (strength / 10 * 0.5).toInt()
+            }
+
+            else -> {
+                other.currentHp -= strength / 10
+            }
+        }
+    }
+
     override fun equals(other: Any?) = when {
         this === other -> true
         other !is WaterPokemon -> false

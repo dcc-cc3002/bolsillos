@@ -12,6 +12,6 @@ interface Pokemon {
     val maxHp: Int
     val strength: Int
     var currentHp: Int
-    fun attack(other: AbstractPokemon)
+    fun attack(other: Pokemon)
     fun isKo(): Boolean
 }
