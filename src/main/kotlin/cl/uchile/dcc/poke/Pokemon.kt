@@ -7,6 +7,17 @@
 
 package cl.uchile.dcc.poke
 
-class Pokemon(val name: String, SALANDIT_HP: Int) {
+import java.util.*
 
+class Pokemon(val name: String, val maxHp: Int, val strength: Int) {
+    override fun equals(other: Any?) = when {
+        this === other -> true
+        other !is Pokemon -> false
+        else -> Pokemon::class == other::class
+                && name == other.name
+                && maxHp == other.maxHp
+                && strength == other.strength
+    }
+
+    override fun hashCode() = Objects.hash(Pokemon::class, name, maxHp, strength)
 }
