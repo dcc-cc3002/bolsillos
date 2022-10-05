@@ -7,6 +7,6 @@
 
 package cl.uchile.dcc.poke
 
-class Pokemon(val name: String) {
+class Pokemon(val name: String, SALANDIT_HP: Int) {
 
 }
