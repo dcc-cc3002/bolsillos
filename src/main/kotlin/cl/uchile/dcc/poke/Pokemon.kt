@@ -10,6 +10,12 @@ package cl.uchile.dcc.poke
 import java.util.*
 
 class Pokemon(val name: String, val maxHp: Int, val strength: Int) {
+    var currentHp = maxHp
+
+    fun attack(other: Pokemon) {
+        other.currentHp -= strength / 10
+    }
+
     override fun equals(other: Any?) = when {
         this === other -> true
         other !is Pokemon -> false

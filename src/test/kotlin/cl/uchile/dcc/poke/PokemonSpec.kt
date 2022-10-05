@@ -41,4 +41,9 @@ class PokemonSpec : FunSpec({
     test("Two Pokémon with different parameters are not equal") {
         salandit shouldNotBe scolipede
     }
+
+    test("A Pokémon can attack another Pokémon") {
+        salandit.attack(scolipede)
+        scolipede.currentHp shouldBe SCOLIPEDE_HP - SALANDIT_STR / 10
+    }
 })
