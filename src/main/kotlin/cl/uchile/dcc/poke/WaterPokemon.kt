@@ -17,19 +17,19 @@ class WaterPokemon(
 ) : AbstractPokemon(name, maxHp, strength) {
 
     override fun attack(other: Pokemon) {
-        when (other) {
-            is FirePokemon -> {
-                other.currentHp -= (strength / 10 * 1.5).toInt()
-            }
+        other.receiveWaterAttack(this)
+    }
 
-            is GrassPokemon -> {
-                other.currentHp -= (strength / 10 * 0.5).toInt()
-            }
+    override fun receiveWaterAttack(waterPokemon: WaterPokemon) {
+        normalDamageFrom(waterPokemon)
+    }
 
-            else -> {
-                other.currentHp -= strength / 10
-            }
-        }
+    override fun receiveFireAttack(firePokemon: FirePokemon) {
+        resistantDamageFrom(firePokemon)
+    }
+
+    override fun receiveGrassAttack(grassPokemon: GrassPokemon) {
+        weaknessDamageFrom(grassPokemon)
     }
 
     override fun equals(other: Any?) = when {

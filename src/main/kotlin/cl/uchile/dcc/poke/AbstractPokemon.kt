@@ -7,7 +7,6 @@
 
 package cl.uchile.dcc.poke
 
-import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 
@@ -23,6 +22,18 @@ abstract class AbstractPokemon(
 
     override fun attack(other: Pokemon) {
         other.currentHp -= strength / 10
+    }
+
+    protected fun normalDamageFrom(pokemon: Pokemon) {
+        pokemon.currentHp -= strength / 10
+    }
+
+    protected fun resistantDamageFrom(pokemon: Pokemon) {
+        pokemon.currentHp -= strength / 10 / 2
+    }
+
+    protected fun weaknessDamageFrom(pokemon: Pokemon) {
+        pokemon.currentHp -= strength / 10 * 3 / 2
     }
 
     override fun isKo() = currentHp == 0

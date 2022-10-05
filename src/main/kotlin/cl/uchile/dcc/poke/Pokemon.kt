@@ -14,4 +14,7 @@ interface Pokemon {
     var currentHp: Int
     fun attack(other: Pokemon)
     fun isKo(): Boolean
+    fun receiveWaterAttack(waterPokemon: WaterPokemon)
+    fun receiveFireAttack(firePokemon: FirePokemon)
+    fun receiveGrassAttack(grassPokemon: GrassPokemon)
 }
