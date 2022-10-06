@@ -26,14 +26,6 @@ private const val SCOLIPEDE_HP = 60
 private const val SCOLIPEDE_STR = 100
 
 class PokemonSpec : FunSpec({
-    lateinit var salandit: Pokemon
-    lateinit var scolipede: Pokemon
-
-    beforeEach {
-        salandit = Pokemon(SALANDIT_NAME, SALANDIT_HP, SALANDIT_STR)
-        scolipede = Pokemon(SCOLIPEDE_NAME, SCOLIPEDE_HP, SCOLIPEDE_STR)
-    }
-
     test("Two Pokémon with the same parameters are equal") {
         checkAll(Arb.string(), Arb.positiveInt(1000), Arb.positiveInt(100000)) { name, hp, str ->
             val pokemon1 = Pokemon(name, hp, str)
