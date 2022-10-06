@@ -12,7 +12,7 @@ import kotlin.math.min
 
 abstract class AbstractPokemon(
     override val name: String,
-    override val maxHp: Int,
+    final override val maxHp: Int,
     override val strength: Int
 ) : Pokemon {
     override var currentHp = maxHp
