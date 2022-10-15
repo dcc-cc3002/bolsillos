@@ -20,8 +20,9 @@ import java.util.Objects
  * @property name       The name of the Pokémon.
  * @property maxHp      The maximum amount of HP the Pokémon can have.
  * @property strength   The strength of the Pokémon.
+ * @property currentHp  The current amount of HP the Pokémon has. It must be between 0 and [maxHp].
  *
- * @constructor Creates a new Pokémon with the given name, maximum HP and strength.
+ * @constructor Creates a new Pokémon with the given [name], [maxHp] and [strength].
  */
 class Pokemon(val name: String, val maxHp: Int, val strength: Int) {
     var currentHp = maxHp
