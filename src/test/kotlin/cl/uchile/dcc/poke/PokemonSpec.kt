@@ -11,6 +11,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldHave
+import io.kotest.matchers.shouldNot
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.haveSameHashCodeAs
 import io.kotest.matchers.types.shouldNotBeSameInstanceAs
@@ -43,5 +44,10 @@ class PokemonSpec : FunSpec({
     test("Two Pokémon with different parameters should not be equal") {
         salandit shouldNotBeSameInstanceAs scolipede
         salandit shouldNotBe scolipede
+    }
+
+    test("Two Pokémon with different parameters should not have the same hash code") {
+        salandit shouldNotBeSameInstanceAs scolipede
+        salandit shouldNot haveSameHashCodeAs(scolipede)
     }
 })
