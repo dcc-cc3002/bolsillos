@@ -7,17 +7,8 @@
 
 package cl.uchile.dcc.poke
 
-import java.util.*
-import java.util.*
+import java.util.Objects
 
-class Pokemon(val name: String, val maxHp: Int, val strength: Int) {
-    var currentHp = maxHp
-
-    fun attack(other: Pokemon) {
-        other.currentHp -= strength / 10
-    }
-
-    fun isKo() = currentHp == 0
 
 /**
  * A Pokémon is a creature that lives in the wild and can be captured by a trainer.
@@ -29,6 +20,14 @@ class Pokemon(val name: String, val maxHp: Int, val strength: Int) {
  * @constructor Creates a new Pokémon with the given name, maximum HP and strength.
  */
 class Pokemon(val name: String, val maxHp: Int, val strength: Int) {
+    var currentHp = maxHp
+
+    fun attack(other: Pokemon) {
+        other.currentHp -= strength / 10
+    }
+
+    fun isKo() = currentHp == 0
+
     override fun equals(other: Any?) = when {
         this === other -> true
         other !is Pokemon -> false
@@ -39,4 +38,6 @@ class Pokemon(val name: String, val maxHp: Int, val strength: Int) {
     }
 
     override fun hashCode() = Objects.hash(Pokemon::class, name, maxHp, strength)
+
+    override fun toString() = "Pokemon(name: $name, maxHp: $maxHp, strength: $strength)"
 }
